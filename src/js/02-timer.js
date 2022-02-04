@@ -17,11 +17,12 @@ const options = {
     console.log(selectedDates[0]);
   },
 };
+let timerStart = null;
 flatpickr(areaForInputDate, options);
 
 areaForInputDate.addEventListener('input', getDateInInput);
 startTimer.addEventListener('click', adsStartTimer);
-timerArea.addEventListener('input', addLiveDifferent);
+// timerArea.addEventListener('input', addLiveDifferent);
 
 function getDateInInput(event) {
   const date = options.defaultDate;
@@ -37,10 +38,13 @@ function getDateInInput(event) {
 
 function adsStartTimer() {
   const date = new Date(areaForInputDate.value);
-  const liveDate = new Date();
+  const liveDate = options.defaultDate;
   const differenceDate = date - liveDate;
 
-  console.log(convertMs(differenceDate));
+  timerStart = setInterval(() => {
+    convertMs(differenceDate);
+    startTimer.setAttribute('disabled', 'disabled');
+  }, 1000);
 }
 
 function convertMs(ms) {
@@ -58,8 +62,14 @@ function convertMs(ms) {
   const minutes = Math.floor(((ms % day) % hour) / minute);
   // Remaining seconds
   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
-  addLiveDifferent({ days, hours, minutes, seconds });
-  return { days, hours, minutes, seconds };
+
+  daysInfo.textContent = days;
+  hourInfo.textContent = hours;
+  minutesInfo.textContent = minutes;
+  secondsInfo.textContent = seconds;
 }
 
-function addLiveDifferent(params) {}
+// function addLiveDifferent({ days, hours, minutes, seconds }) {
+//   console.log(days);
+// }
+// { days, hours, minutes, seconds };
