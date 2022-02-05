@@ -17,7 +17,7 @@ const options = {
     console.log(selectedDates[0]);
   },
 };
-let timerStart = null;
+
 flatpickr(areaForInputDate, options);
 
 areaForInputDate.addEventListener('input', getDateInInput);
@@ -39,37 +39,49 @@ function getDateInInput(event) {
 function adsStartTimer() {
   const date = new Date(areaForInputDate.value);
   const liveDate = options.defaultDate;
-  const differenceDate = date - liveDate;
 
-  timerStart = setInterval(() => {
-    convertMs(differenceDate);
+  setInterval(() => {
+    convertMs(date - liveDate);
     startTimer.setAttribute('disabled', 'disabled');
   }, 1000);
 }
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
-  const second = 1000;
-  const minute = second * 60;
-  const hour = minute * 60;
-  const day = hour * 24;
+  setInterval(() => {
+    const second = 1000;
+    const minute = second * 60;
+    const hour = minute * 60;
+    const day = hour * 24;
+
+    const days = Math.floor(ms / day);
+    // Remaining hours
+    const hours = Math.floor((ms % day) / hour);
+    // Remaining minutes
+    const minutes = Math.floor(((ms % day) % hour) / minute);
+    // Remaining seconds
+    const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+    // console.log(days);
+    daysInfo.textContent = days;
+    hourInfo.textContent = hours;
+    minutesInfo.textContent = minutes;
+    secondsInfo.textContent = seconds;
+
+    addLeadingZero(daysInfo.textContent);
+    addLeadingZero(hourInfo.textContent);
+    addLeadingZero(minutesInfo.textContent);
+    addLeadingZero(secondsInfo.textContent);
+  }, 1000);
 
   // Remaining days
-  const days = Math.floor(ms / day);
-  // Remaining hours
-  const hours = Math.floor((ms % day) / hour);
-  // Remaining minutes
-  const minutes = Math.floor(((ms % day) % hour) / minute);
-  // Remaining seconds
-  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
-
-  daysInfo.textContent = days;
-  hourInfo.textContent = hours;
-  minutesInfo.textContent = minutes;
-  secondsInfo.textContent = seconds;
 }
 
-// function addLiveDifferent({ days, hours, minutes, seconds }) {
-//   console.log(days);
-// }
-// { days, hours, minutes, seconds };
+function addLeadingZero(value) {
+  // console.log(value);
+  if (value > 9) {
+    console.log(value);
+    value;
+  }
+  console.log(value.padStart(1, '0'));
+  value.padStart(1, '0');
+}
