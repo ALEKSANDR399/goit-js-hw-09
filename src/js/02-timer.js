@@ -23,7 +23,6 @@ flatpickr(areaForInputDate, options);
 
 areaForInputDate.addEventListener('input', getDateInInput);
 startTimer.addEventListener('click', adsStartTimer);
-// timerArea.addEventListener('input', addLiveDifferent);
 
 function getDateInInput(event) {
   const date = options.defaultDate;
@@ -51,8 +50,6 @@ function adsStartTimer() {
 }
 
 function convertMs(ms) {
-  // Number of milliseconds per unit of time
-
   const second = 1000;
   const minute = second * 60;
   const hour = minute * 60;
@@ -65,7 +62,7 @@ function convertMs(ms) {
   const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
   // Remaining seconds
   const seconds = addLeadingZero(Math.floor((((ms % day) % hour) % minute) / second));
-  // console.log(days);
+
   daysInfo.textContent = days;
   hourInfo.textContent = hours;
   minutesInfo.textContent = minutes;
@@ -75,8 +72,6 @@ function convertMs(ms) {
   addLeadingZero(hourInfo.textContent);
   addLeadingZero(minutesInfo.textContent);
   addLeadingZero(secondsInfo.textContent);
-
-  // Remaining days
 }
 
 function addLeadingZero(value) {
